@@ -92,12 +92,6 @@ namespace umf::iterable {
 		return scan([x, k](T t, T i) { return t * (x + i * k); }, iota<T>(0), x);
 	}
 
-	template<class T>
-	inline auto power(T x, T x0 = 1)
-	{
-		return scan([x](T t, T) { return t * x; }, x0);
-	}
-
 } // umf::iterable
 
 template<class Op, umf::iterable::forward_iterable I, class T = typename I::value_type>

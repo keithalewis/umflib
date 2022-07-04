@@ -7,6 +7,52 @@
 
 namespace umf::iterable {
 
+	// constant iterable
+	template<class T>
+	class constant {
+		T t;
+	public:
+		using value_type = T;
+		using reference = T&;
+
+		constant(T t = 0)
+			: t(t)
+		{ }
+		auto operator<=>(const constant&) const = default;
+		explicit operator bool() const
+		{
+			return true;
+		}
+		constant begin() const
+		{
+			return *this;
+		}
+		constant end() const
+		{
+			return constant(std::numeric_limits<T>::max());
+		}
+		value_type operator*() const
+		{
+			return t;
+		}
+		reference operator*()
+		{
+			return t;
+		}
+		constant& operator++()
+		{
+			return *this;
+		}
+		constant operator++(int)
+		{
+			auto tmp = *this;
+
+			operator++();
+
+			return tmp;
+		}
+	};
+
 	template<class T>
 	class iota {
 		T t;
@@ -45,51 +91,6 @@ namespace umf::iterable {
 			return *this;
 		}
 		iota operator++(int)
-		{
-			auto tmp = *this;
-
-			operator++();
-
-			return tmp;
-		}
-	};
-
-	template<class T>
-	class constant {
-		T t;
-	public:
-		using value_type = T;
-		using reference = T&;
-
-		constant(T t = 0)
-			: t(t)
-		{ }
-		auto operator<=>(const constant&) const = default;
-		explicit operator bool() const
-		{
-			return true;
-		}
-		constant begin() const
-		{
-			return *this;
-		}
-		constant end() const
-		{
-			return constant(std::numeric_limits<T>::max());
-		}
-		value_type operator*() const
-		{
-			return t;
-		}
-		reference operator*()
-		{
-			return t;
-		}
-		constant& operator++()
-		{
-			return *this;
-		}
-		constant operator++(int)
 		{
 			auto tmp = *this;
 
@@ -146,6 +147,22 @@ namespace umf::iterable {
 		}
 	};
 
+	// start, start + step, ..., start + (n - 1)*step
+	template<class T>
+	inline auto sequence(std::size_t n, T start = 0, T step = 1)
+	{
+		return take(n, arithmetic<T>(start, step));
+	}
+
+	// start, start + step, ..., stop
+	template<class T>
+	inline auto interval(T start, T stop, T step = 1)
+	{
+		std::size_t n = 1u + static_cast<std::size_t>(fabs((stop - start) / step));
+
+		return take(n, arithmetic<T>(start, step));
+	}
+
 	// t0, t0*t, t0*t^2
 	template<class T>
 	class geometric {
@@ -194,21 +211,12 @@ namespace umf::iterable {
 		}
 	};
 
-	// start, start + step, ..., start + (n - 1)*step
 	template<class T>
-	inline auto sequence(std::size_t n, T start = 0, T step = 1)
+	inline auto power(T dt = 1, T t = 1)
 	{
-		return take(n, arithmetic<T>(start, step));
+		return geometric<T>(dt, t);
 	}
 
-	// start, start + step, ..., stopr
-	template<class T>
-	inline auto interval(T start, T stop, T step = 1)
-	{
-		std::size_t n = 1u + static_cast<std::size_t>(fabs((stop - start) / step));
-
-		return take(n, arithmetic<T>(start, step));
-	}
 
 } // namespace umf::iterable
 
@@ -223,6 +231,7 @@ inline int test_iota()
 	using umf::iterable::iota;
 	using umf::iterable::arithmetic;
 	using umf::iterable::geometric;
+	using umf::iterable::power;
 
 	{
 		iota<int> i;
@@ -269,11 +278,21 @@ inline int test_iota()
 	{
 		auto c = umf::iterable::constant(2);
 		assert(c);
+		auto c2{ c };
+		assert(c2 == c);
+		c = c2;
+		assert(!(c != c2));
 		assert(2 == *c);
 		++c;
 		assert(2 == *c);
 		assert(2 == *c++);
 		assert(2 == *c);
+		int n = 3;
+		for (const auto& c_ : c) {
+			if (n == 0) break;
+			assert(2 == c_);
+			--n;
+		}
 	}
 
 	return 0;

@@ -13,18 +13,19 @@ namespace umf::iterable {
 	class epsilon {
 		I i;
 		T eps;
-		size_t n, _n;
+		std::size_t n;
+		std::size_t _n; // current number of consecutive epsilons
 	public:
 		using value_type = T;
 		using reference = T&;
 
 		epsilon(const I& i, T eps = std::numeric_limits<T>::epsilon(), std::size_t n = 1)
-			: i(i), eps(eps), n(n), _n(n)
+			: i(i), eps(eps), n(n), _n(0)
 		{ }
 		auto operator<=>(const epsilon&) const = default;
 		explicit operator bool() const
 		{
-			return std::abs(*i) > eps or _n;
+			return _n != n or std::abs(*i) > eps;
 		}
 		epsilon begin() const
 		{
@@ -47,13 +48,14 @@ namespace umf::iterable {
 		}
 		epsilon& operator++()
 		{
-			if (operator bool()) {
+			if (std::abs(*i) > eps) {
 				++i;
-				if (std::abs(*i) <= eps) {
-					--_n;
-				}
-				else {
-					_n = n;
+				_n = 0;
+			}
+			else {
+				if (_n < n) {
+					++i;
+					++_n;
 				}
 			}
 
@@ -75,9 +77,18 @@ namespace umf::iterable {
 #include <cassert>
 #include "array.h"
 #include "counted.h"
+#include "iota.h"
 
 inline int test_epsilon()
 {
+	using umf::iterable::epsilon;
+	using umf::iterable::power;
+
+	{
+		auto i = power(0.5);
+
+	}
+
 	return 0;
 }
 

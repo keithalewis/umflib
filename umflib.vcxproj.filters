@@ -54,6 +54,12 @@
     <ClInclude Include="null.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="loop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="epsilon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="iterable.t.cpp">
