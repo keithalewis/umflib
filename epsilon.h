@@ -34,7 +34,10 @@ namespace umf::iterable {
 		epsilon end() const
 		{
 			auto e = *this;
-			while (e) ++e;
+
+			while (e) {
+				++e;
+			}
 
 			return e;
 		}
@@ -48,14 +51,14 @@ namespace umf::iterable {
 		}
 		epsilon& operator++()
 		{
-			if (std::abs(*i) > eps) {
+			if (*i > eps) {
 				++i;
 				_n = 0;
 			}
 			else {
+				++_n;
 				if (_n < n) {
 					++i;
-					++_n;
 				}
 			}
 
@@ -81,11 +84,18 @@ namespace umf::iterable {
 
 inline int test_epsilon()
 {
+	using umf::iterable::array;
 	using umf::iterable::epsilon;
 	using umf::iterable::power;
 
 	{
-		auto i = power(0.5);
+		int i[] = { 1,1,0 };
+		auto e = epsilon(array(i), 0);
+		assert(e);
+		++e;
+		assert(e);
+		++e;
+		assert(!e);
 
 	}
 
