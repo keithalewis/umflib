@@ -28,6 +28,9 @@ int counted_test = test_counted();
 #ifdef UMF_EPSILON_INCLUDED
 int epsilon_test = test_epsilon();
 #endif
+#ifdef UMF_FILTER_INCLUDED
+int filter_test = test_filter();
+#endif
 #ifdef UMF_IOTA_INCLUDED
 int iota_test = test_iota();
 #endif

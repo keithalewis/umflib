@@ -159,6 +159,7 @@
     <ClInclude Include="container.h" />
     <ClInclude Include="counted.h" />
     <ClInclude Include="epsilon.h" />
+    <ClInclude Include="filter.h" />
     <ClInclude Include="iota.h" />
     <ClInclude Include="iterable.h" />
     <ClInclude Include="loop.h" />

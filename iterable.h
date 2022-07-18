@@ -8,6 +8,7 @@
 #include "container.h"
 #include "counted.h"
 #include "epsilon.h"
+#include "filter.h"
 #include "iota.h"
 #include "loop.h"
 #include "null.h"

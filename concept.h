@@ -9,7 +9,7 @@ namespace umf::iterable {
 	concept forward_iterable = requires (I i) {
 		typename I::value_type;
 		typename I::reference;
-		std::equality_comparable<I>;
+//		std::equality_comparable<I>;
 		{ i.operator bool() } -> std::same_as<bool>;
 		{ i.begin() } -> std::same_as<I>;
 		{ i.end() }   -> std::same_as<I>;
