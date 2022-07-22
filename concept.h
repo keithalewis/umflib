@@ -47,7 +47,16 @@ inline I end(I i)
 {
 	return i.end();
 }
+// slow way of finding end
+template<umf::iterable::forward_iterable I>
+inline I last(I i)
+{
+	while (i) {
+		++i;
+	};
 
+	return i;
+}
 template<umf::iterable::forward_iterable I>
 inline I back(I i)
 {

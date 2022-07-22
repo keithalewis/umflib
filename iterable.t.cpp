@@ -13,6 +13,9 @@ int array_test = test_array();
 #ifdef UMF_BINOP_INCLUDED
 int binop_test = test_binop();
 #endif
+#ifdef UMF_BUFFER_INCLUDED
+int buffer_test = test_buffer();
+#endif
 #ifdef UMF_COMPARE_INCLUDED
 int compare_test = test_compare();
 #endif

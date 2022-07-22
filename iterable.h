@@ -4,6 +4,7 @@
 #include "apply.h"
 #include "array.h"
 #include "binop.h"
+#include "buffer.h"
 #include "compare.h"
 #include "container.h"
 #include "counted.h"
