@@ -22,7 +22,8 @@ namespace umf::iterable {
 			: n(_n), i(_i), in(counted(_n, _i))
 		{
 			if (n != length(in)) {
-				//throw std::runtime_error(__FUNCTION__ ": too few elements to buffer");
+				const char* err = __FUNCTION__ /*": too few elements to buffer"*/;
+				throw std::runtime_error(err);
 			}
 		}
 		auto operator<=>(const buffer&) const = default;
